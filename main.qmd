@@ -1,0 +1,509 @@
+---
+title: "Estimação"
+bibliography: ref.bib
+csl: abnt.csl
+format:
+  html:
+    code-fold: true
+  # pdf:
+  #   documentclass: article
+  #   keep-tex: true
+  #   geometry:
+  #     - top=30mm
+  #     - left=30mm
+  #     - right=20mm
+  #     - bottom=20mm
+---
+
+## Carregando base de dados
+
+```{r}
+data = utils::read.csv(file = "pense2019_microdados.csv")
+```
+
+## Limpando os dados
+
+```{r}
+#| warning: false
+library(janitor)
+
+# Selecionando variáveis importantes e filtrando registros válidos.
+
+clean_data = janitor::clean_names(data) |>
+  dplyr::rename(
+    tabagismo = b04003,
+    sexo = b01001a,
+    idade = b01003,
+    mes_aniversario = b01004,
+    ano_nascimento = b01005,
+    cor = b01002,
+    celular = b01014,
+    computador = b01015b,
+    internet = b01016,
+    carro = b01017,
+    moto = b01018a,
+    banheiro = b01019a,
+    escolaridade_mae = b01008b,
+    ano_escolar = b01021a,
+    atividade_fisica = b03006b,
+    bebida_alcoolica = b05004a,
+    dias_tristes = b12005,
+    sentimento_corpo = b11007,
+    frequencia_pais_problemas = b07004,
+    amigos_fumaram = b04016,
+    pais_fumam = b04006b,
+    escola_frequencia_violencia_colegas = b07012,
+    escola_acesso_internet = e01p09a,
+    escola_atividades_fisicas = e01p74,
+    escola_prevencao_uso_tabaco = e01p8506,
+    escola_consumo_cigarro_professores = e01p26a,
+  ) |>
+  dplyr::select(
+    "regiao",
+    "uf",
+    "municipio_cap",
+    "escola",
+    "aluno",
+    "tabagismo",
+    "sexo",
+    "idade",
+    "mes_aniversario",
+    "ano_nascimento",
+    "cor",
+    "celular",
+    "computador",
+    "internet",
+    "carro",
+    "moto",
+    "banheiro",
+    "escolaridade_mae",
+    "ano_escolar",
+    "atividade_fisica",
+    "bebida_alcoolica",
+    "dias_tristes",
+    "sentimento_corpo",
+    "frequencia_pais_problemas",
+    "amigos_fumaram",
+    "pais_fumam",
+    "escola_frequencia_violencia_colegas",
+    "escola_acesso_internet",
+    "escola_atividades_fisicas",
+    "escola_prevencao_uso_tabaco",
+    "escola_consumo_cigarro_professores"
+  ) |>
+  dplyr::filter(
+    if_all(
+      c(
+        "tabagismo",
+        "sexo",
+        "idade",
+        "cor",
+        "celular",
+        "computador",
+        "internet",
+        "mes_aniversario",
+        "ano_nascimento",
+        "carro",
+        "moto",
+        "banheiro",
+        "escolaridade_mae",
+        "ano_escolar",
+        "atividade_fisica",
+        "bebida_alcoolica",
+        "dias_tristes",
+        "sentimento_corpo",
+        "frequencia_pais_problemas",
+        "amigos_fumaram",
+        "pais_fumam",
+        "escola_frequencia_violencia_colegas",
+        "escola_acesso_internet",
+        "escola_atividades_fisicas",
+        "escola_prevencao_uso_tabaco",
+        "escola_consumo_cigarro_professores"
+      ),
+      ~ !.x %in% c(-2, 9, 99, -1, 9999))
+  ) |>
+  tidyr::drop_na()
+```
+
+## Ajustando variáveis
+
+```{r}
+# Sexo.
+# 1, se homem.
+# 0, se mulher.
+clean_data$sexo <- ifelse(clean_data$sexo == 1, 1, 0)
+
+# Idade (Ano da pesquisa - ano de nascimento)
+clean_data$idade <- 2019 - clean_data$ano_nascimento
+
+# Cor
+# 1, se Branco/Amarelo.
+# 0, caso contrário.sudo apt -y install libfontconfig1-dev
+clean_data$cor <- ifelse(clean_data$cor %in% c(1, 3), 1, 0)
+
+# Celular
+# 1, se tem celular.
+# 0, caso contrário.
+clean_data$celular <- ifelse(clean_data$celular == 1, 1, 0)
+
+# Computador
+# 1, se tem computador
+# 0, caso contrário.
+clean_data$computador <- ifelse(clean_data$computador == 1, 1, 0)
+
+# Internet
+# 1, se tem internet.
+# 0, caso contrário.
+clean_data$internet <- ifelse(clean_data$internet == 1, 1, 0)
+
+
+# Carro
+# 1, se tem carro
+# 0, caso contrário.
+clean_data$carro <- ifelse(clean_data$carro == 1, 1, 0)
+
+# Moto
+# 1, se tem moto.
+# 0, caso contrário.
+clean_data$moto <- ifelse(clean_data$moto == 1, 1, 0)
+
+# Banheiro
+# 0, não tem banheiro.
+# 1, caso contrário (1 ou mais banheiros).
+clean_data$banheiro <- ifelse(clean_data$banheiro == 1, 0, 1)
+
+# Dummies escolaridade da mãe:
+
+## mae_nao_estudou:
+## 1, se não estudou.
+## 0, caso contrário.
+clean_data$mae_nao_estudou <- ifelse(clean_data$escolaridade_mae == 1, 1, 0)
+
+## mae_concluiu_ensino_medio.
+## 1, se concluiu pelo menos ensino médio.
+## 0, caso contrário.
+clean_data$mae_concluiu_ensino_medio <- ifelse(clean_data$escolaridade_mae %in% c(5,6,7), 1, 0)
+
+## mae_concluiu_ensino_fundamental.
+## 1, se concluiu o ensino fundamental.
+## 0, caso contrário.
+clean_data$mae_concluiu_ensino_fundamental <- ifelse(clean_data$escolaridade_mae == 3, 1, 0)
+
+## mae_concluiu_ensino_superior
+## 1, se concluiu o ensino superior.
+## 0, caso contrário.
+clean_data$mae_concluiu_ensino_superior <- ifelse(clean_data$escolaridade_mae == 7, 1, 0)
+
+
+# Distorção idade-série:
+# Distorção idade-série = Idade - Anos de Estudo - 7.
+# Anos de estudo := ano escolar + 5 (Nesta base de dados).
+# Se distorção idade-serie < 0, 0.
+clean_data$distorcao_idade_serie <- ifelse(
+  (clean_data$idade - (clean_data$ano_escolar + 5) - 7) < 0,
+  0,
+  (clean_data$idade - (clean_data$ano_escolar + 5) - 7)
+)
+
+# Dummies atividade física:
+## af_nenhum_dia:
+## 1, se não fez atividade física nenhum dia.
+## 0, caso contrário.
+clean_data$af_nenhum_dia <- ifelse(clean_data$atividade_fisica == 1, 1, 0)
+
+## af_1_a_3_dias
+## 1, se fez atividade física de 1 à 3 dias.
+## 0, caso contrário.
+clean_data$af_1_a_3_dias <- ifelse(
+  clean_data$atividade_fisica %in% c(2, 3, 4), 1, 0
+)
+
+## af_4_a_5_dias
+## 1, se fez atividade física de 4 à 5 dias.
+## 0, caso contrário.
+clean_data$af_4_a_5_dias <- ifelse(
+  clean_data$atividade_fisica %in% c(5, 6), 1, 0
+)
+
+## af_6_a_7_dias
+## 1, se fez atividade física de 6 à 7 dias.
+## 0, caso contrário.
+clean_data$af_6_a_7_dias <- ifelse(
+  clean_data$atividade_fisica %in% c(7, 8), 1, 0
+)
+
+# Dummies Bebida Alcoólica
+## ba_nenhum_dia
+## 1, se não ingeriu bebida alcóolica nos últimos 30 dias.
+## 0, caso contrário.
+clean_data$ba_nenhum_dia <- ifelse(clean_data$bebida_alcoolica == 1, 1, 0)
+
+## ba_1_a_9_dias
+## 1, se ingeriu bebida alcóolica de 1 a 9 dias, nos últimos 30 dias.
+## 0, caso contrário.
+clean_data$ba_1_a_9_dias <- ifelse(
+  clean_data$bebida_alcoolica %in% c(2, 3, 4), 1, 0
+)
+
+## ba_10_a_19_dias
+## 1, se ingeriu bebida alcóolica de 10 a 19 dias, nos últimos 30 dias.
+## 0, caso contrário.
+clean_data$ba_10_a_19_dias <- ifelse(clean_data$bebida_alcoolica == 5, 1, 0)
+  
+## ba_20_a_todos_dias
+## 1, se ingeriu bebida alcóolica de 20 a todos dias, nos últimos 30 dias.
+## 0, caso contrário.
+clean_data$ba_20_a_todos_dias <- ifelse(
+  clean_data$bebida_alcoolica %in% c(6, 7), 1, 0
+  )
+
+# Dummy Saúde Mental
+# 1, caso tenha se sentido triste "na maioria das vezes" ou "sempre".
+# 0, caso contrário.
+clean_data$triste_na_maioria_das_vezes <- ifelse(
+  clean_data$dias_tristes %in% c(1,2,3), 0, 1
+)
+
+
+# Dummies Sentimento em relação ao corpo
+
+## corpo_satisfeito
+## 1, caso esteja satifeito/muito satisfeito com o corpo.
+## 0, caso contrário.
+clean_data$corpo_satisfeito <- ifelse(
+  clean_data$sentimento_corpo %in% c(1,2), 1, 0
+)
+
+## corpo_insatisfeito
+## 1, caso esteja insatisfeito/muito insatisfeito com o corpo.
+## 0, caso contrário.
+clean_data$corpo_insatisfeito <- ifelse(
+  clean_data$sentimento_corpo %in% c(4,5), 1, 0
+)
+
+## corpo_indiferente
+## 1, caso esteja indiferente em relação ao corpo.
+## 0, caso contrário.
+clean_data$corpo_indiferente <- ifelse(clean_data$sentimento_corpo == 3, 1, 0)
+
+# Dummies Compreensão familiar
+
+## compreensao_nunca
+## 1, se os pais não compreendem nunca.
+## 0, caso contrário.
+clean_data$compreensao_nunca <- ifelse(
+  clean_data$frequencia_pais_problemas == 1, 1, 0
+)
+
+## compreensao_as_vezes
+## 1, se os pais compreendem as vezes
+## 0, caso contrário.
+clean_data$compreensao_as_vezes <- ifelse(
+  clean_data$frequencia_pais_problemas %in% c(2,3), 1, 0
+)
+
+## compreensao_sempre
+## 1, se os pais compreendem sempre
+## 0, caso contrário.
+clean_data$compreensao_sempre <- ifelse(
+  clean_data$frequencia_pais_problemas %in% c(4,5), 1, 0
+)
+
+# Dummy Amigos fumantes
+# 1, caso algum amigo tenha fumado na sua presença nos últimos 30 dias.
+# 0, caso contrário.
+clean_data$amigos_fumaram <- ifelse(clean_data$amigos_fumaram == 1, 1, 0)
+
+# Dummy Pais fumantes
+# 1, se algum deles fuma.
+# 0, caso contrário.
+clean_data$pais_fumam <- ifelse(clean_data$pais_fumam %in% c(2,3,4), 1, 0)
+
+# Dummy Internet Escola
+# 1, se tem internet para os alunos.
+# 0, caso contrário.
+clean_data$escola_acesso_internet <- ifelse(
+  clean_data$escola_acesso_internet == 1, 1, 0
+)
+
+# Dummy Atividade Física Escola
+# 1, se tem prática de atividade física para os alunos.
+# 0, caso contrário.
+clean_data$escola_atividades_fisicas <- ifelse(
+  clean_data$escola_atividades_fisicas == 1, 1, 0
+)
+
+# Dummy Violência na escola
+# 1, se o aluno foi agredido nos últimos 30 dias.
+# 0, caso contrário.
+clean_data$escola_agredido <- ifelse(
+  clean_data$escola_frequencia_violencia_colegas == 1, 0, 1
+)
+
+# Dummy Prevenção uso de Tabaco
+# 1, se a escola fez alguma campanha de prevenção do
+# uso de tabaco nos últimos 12 meses.
+# 0, caso contrário.
+clean_data$escola_prevencao_uso_tabaco <- ifelse(
+  clean_data$escola_prevencao_uso_tabaco == 1, 1, 0
+)
+
+# Dummy consumo de cigarro professores/funcionarios
+# 1, se professores e/ou funcionários fumaram nas dependências da escola.
+# 0, caso contrário.
+clean_data$escola_consumo_cigarro_professores_e_ou_funcionarios <- ifelse(
+  clean_data$escola_consumo_cigarro_professores %in% c(1,2,3), 1, 0
+)
+
+# Transformando a variável dependente em um fator:
+
+clean_data$tabagismo <- factor(as.character(clean_data$tabagismo))
+```
+
+## Estimando o modelo
+
+A amostra restante (alunos e escolas Não
+Sem resposta
+is é a abordagem mais utilizada para analisar dados ordinais hierárquicos.
+Para um resultado de nível $k$, a probabilidade cumulativa de sucesso nas divisões cumulativas $K-1$ é baseado em um modelo logit cumulativo para a respostas, $R_{ij}$, para o aluno $i$ na escola $j$. Utilizando a terminologia de @raudenbush, o modelo é caracterizado por nível, da seguinte forma:
+
+$$
+\text{Nível 1:}  \hspace{1cm} \eta_{kij} = \ln{\Biggl(\frac{P(R_{ij} \leq k)}{P(R_{ij} \geq k)}\Biggl)} = \beta_{0j} + \sum_{q=1}^{Q} \beta_{qij} + \sum_{k=2}^{K-1} D_{kij}\rho_{k} 
+$$
+
+
+$$
+\text{Nível 2:} \hspace{1cm} \beta_{qj} = \gamma_{q0} + \sum_{s=1}^{S_{q}} \gamma_{qs} W_{sj} + \mu_{qj}
+$$
+
+Neste modelo, $\eta_{kij}$ é o preditor logístico para a comparação cumulativa $k$ e para o aluno $i$ na escola $j$. Como o logit é o logaritmo natural da razão de chances (*log-odds*) da probabilidade de sucesso, podemos utilizar a relação abaixo para obter a razão de chances (*odds*), $\pi_{kij}$:
+
+$$
+ \pi_{kij}(x) = \frac{\exp(\eta_{kij})}{1 + \exp(\eta_{kij})} = \frac{odds_{(kij)}}{1 + odds_{(kij)}}
+$$
+
+Onde $x$ é um vetor de variáveis explicativas de nível 1 e nível 2.
+
+Para cada aluno, uma série de probabilidades $K-1$ é determinada a partir do modelo, cada uma representando a probabilidade da resposta estar em ou abaixo de uma determinada categoria, condicionada ao conjunto de preditores [@oconnell].
+
+A $K$-ésima probabilidade será sempre igual a 1, uma vez que todas as respostas devem estar em ou abaixo do nível $K$ nos dados. Para cada unidade ou grupo de nível 2, a equação de regressão no nível 1, fornece um conjunto único de interceptos e coeficientes de regressão. A suposição de probabilidades proporcionais sustenta que, em todas as divisões cumulativas $K-1$ dos dados, os coeficientes de inclinações são constantes, embora variem de grupo para grupo. No nível 2, a variabilidade nos interceptos e coeficientes de inclinação entre os grupos, é capturada pelos resíduos do nível 2, $\mu_{qj}$ [@oconnell].
+
+A variação nas estimativas de parâmetros de regressão aleatória pode ser modelada usando preditores do nível 2, $W_{sj}$, que não precisam ser os mesmos para cada coeficiente de regressão do nível 1. Os $\gamma_{qs}$ do nível 2 são os coeficientes de regressão fixos. A medida em que a explicação dos coeficientes aleatórios de nível 1 melhora com a adição de preditores apropriados de nível 2, os resíduos no nível 2 tornam-se menores. Esses resíduos são considerados normalmente distribuídos com a matriz var-cov $T$: $\mu_{1j} \sim N(0, T)$ [@oconnell].
+
+Para ajustar o modelo, podemos utilizar o pacote '*ordinal*' [@christensen] do R  que contém a função `clmm()` (*Cumulative Link Mixed-Effects*), utilizado e recomendado por @bousquet e @agresti.
+ 
+#### Modelo de interceptos
+Estimando o *Cumulative Link Mixed-Effects* nulo (*intercept-only*):
+```{r}
+#| warning: false
+
+library(ordinal)
+
+logit_nulo <- clmm(tabagismo ~ 1 + (1 | escola), data=clean_data)
+summary(logit_nulo)
+```
+
+#### Logit ordenado (nível aluno)
+Estimando o *Cumulative Link Mixed-Effects* apenas com preditores de nível 1 (aluno):
+```{r}
+#| warning: false
+logit_ordenado <- clm(
+  tabagismo ~ sexo + idade + cor + celular + computador +
+  internet + carro + moto + banheiro +
+  mae_nao_estudou +
+  mae_concluiu_ensino_fundamental +
+  distorcao_idade_serie + af_1_a_3_dias + af_4_a_5_dias +
+  af_6_a_7_dias + ba_1_a_9_dias + ba_10_a_19_dias +
+  ba_20_a_todos_dias +
+  triste_na_maioria_das_vezes + corpo_indiferente +
+  corpo_insatisfeito + compreensao_sempre +
+  compreensao_as_vezes + pais_fumam + amigos_fumaram +
+  escola_acesso_internet + 
+  escola_agredido +
+  escola_atividades_fisicas +
+  escola_prevencao_uso_tabaco +
+  escola_consumo_cigarro_professores_e_ou_funcionarios,
+  data = clean_data
+)
+summary(logit_ordenado)
+```
+
+
+#### Logit ordenado multinível
+Estimando o *Cumulative Link Mixed-Effects* completo, com variáveis do nível 1 e 2 (aluno e escola), captando também, efeitos aleatórios do nível 2:
+```{r}
+#| warning: false
+logit_ordenado_multinivel <- clmm(
+  tabagismo ~ sexo + idade + cor + celular + computador +
+  internet + carro + moto + banheiro +
+  mae_nao_estudou +
+  mae_concluiu_ensino_fundamental +
+  distorcao_idade_serie + af_1_a_3_dias + af_4_a_5_dias +
+  af_6_a_7_dias + ba_1_a_9_dias + ba_10_a_19_dias +
+  ba_20_a_todos_dias +
+  triste_na_maioria_das_vezes + corpo_indiferente +
+  corpo_insatisfeito + compreensao_sempre +
+  compreensao_as_vezes + pais_fumam + amigos_fumaram + 
+  escola_agredido +
+  (1|escola) + escola_acesso_internet +
+  escola_atividades_fisicas +
+  escola_prevencao_uso_tabaco +
+  escola_consumo_cigarro_professores_e_ou_funcionarios,
+  data = clean_data
+)
+summary(logit_ordenado_multinivel)
+```
+
+### Testes
+
+#### ICC
+O Coeficiente de Correlação Intraclasse (ICC) fornece uma avaliação de quanta variabilidade nas respostas está no nível do grupo. Quando os dados são dicotômicos, a variabilidade dentro do grupo é definida pela distribuição amostral dos dados, normalmente a distribuição de Bernoulli. Quando o modelo de distribuição logística é aplicado, assume-se que os resíduos de nível um seguem a distribuição logística padrão, que tem uma média de 0 e uma variância de $\pi^2/3 = 3,29$ [@oconnell]:
+
+$$
+\text{ICC} = \frac{Var(\mu_{qj})}{Var(\mu_{qj}) + 3,29}
+$$
+
+Ou seja, o ICC é a proporção entre a variância a nível de escola $Var(\mu_{qj})$ e a variância total, dos dois níveis.
+```{r}
+ICC = 0.001769/(0.001769 + 3.29)
+ICC
+```
+
+O ICC pode assumir valores entre 0 e 1. Quanto mais próximo de 0, quer dizer que menos ocorre variância dos alunos entre as escolas, ou seja, a probabilidade de ter algum nível de tabagismo independe da escola em que o aluno está inserido. Nessa situação, deve-se utilizar modelos convencionais, considerando apenas um nível. Como $\text{ICC} = 0,0005$, quer dizer que apenas $0,05\%$ das variações na probabilidade de ter algum nível de tabagismo deve-se às heterogeneidades da escola. O que indica que deve-se utilizar modelos convencionais.
+
+#### Likelihood-ratio
+
+O LR test (Likelihood-ratio test ou Teste da razão de verossimilhanças) avalia a qualidade do ajuste de dois modelos estatísticos concorrentes com base na razão de suas verossimilhanças. Se a hipótese nula não for rejeitada, significa que ambos os modelos não se diferem de forma significativa.
+```{r}
+anova(logit_ordenado_multinivel, logit_ordenado)
+```
+
+Como $p > 0,05$, aceitamos a hipótese nula e optamos pelo modelo mais simples, já que o ICC também foi inferior à $0,1$.
+
+
+### Resultados
+
+#### Odds Ratio (Razão de chances)
+
+Razão de chance para cada preditor com intervalo de confiança de $5\%$:
+
+
+```{r}
+ci <- confint(logit_ordenado)
+
+exp(
+  cbind(
+    OR = tail(
+      logit_ordenado$coefficients,
+      n=(length(logit_ordenado$coefficients) - 6)
+    ),
+    ci
+  )
+)
+```
+
+
+### Referências
+::: {#refs}
+:::
