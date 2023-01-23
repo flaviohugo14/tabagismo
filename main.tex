@@ -209,7 +209,7 @@
 
 \begin{document}
 \maketitle
-\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[boxrule=0pt, interior hidden, sharp corners, breakable, enhanced, borderline west={3pt}{0pt}{shadecolor}, frame hidden]}{\end{tcolorbox}}\fi
+\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[sharp corners, borderline west={3pt}{0pt}{shadecolor}, breakable, enhanced, frame hidden, boxrule=0pt, interior hidden]}{\end{tcolorbox}}\fi
 
 \hypertarget{carregando-base-de-dados}{%
 \subsection{Carregando base de dados}\label{carregando-base-de-dados}}
@@ -564,6 +564,1102 @@
 \NormalTok{clean\_data}\SpecialCharTok{$}\NormalTok{tabagismo }\OtherTok{\textless{}{-}} \FunctionTok{factor}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(clean\_data}\SpecialCharTok{$}\NormalTok{tabagismo))}
 \end{Highlighting}
 \end{Shaded}
+
+\hypertarget{anuxe1lise-descritiva}{%
+\subsection{Análise descritiva}\label{anuxe1lise-descritiva}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\# Dataset após limpeza e inclusão de dummies}
+\FunctionTok{library}\NormalTok{(knitr)}
+
+\FunctionTok{kable}\NormalTok{(}\FunctionTok{head}\NormalTok{(clean\_data))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 104\tabcolsep) * \real{0.0079}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 104\tabcolsep) * \real{0.0034}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 104\tabcolsep) * \real{0.0158}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 104\tabcolsep) * \real{0.0079}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 104\tabcolsep) * \real{0.0068}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 104\tabcolsep) * \real{0.0113}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 104\tabcolsep) * \real{0.0056}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 104\tabcolsep) * \real{0.0068}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 104\tabcolsep) * \real{0.0180}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 104\tabcolsep) * \real{0.0169}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 104\tabcolsep) * \real{0.0045}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 104\tabcolsep) * \real{0.0090}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 104\tabcolsep) * \real{0.0124}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 104\tabcolsep) * \real{0.0101}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 104\tabcolsep) * \real{0.0068}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 104\tabcolsep) * \real{0.0056}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 104\tabcolsep) * \real{0.0101}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 104\tabcolsep) * \real{0.0192}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 104\tabcolsep) * \real{0.0135}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 104\tabcolsep) * \real{0.0192}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 104\tabcolsep) * \real{0.0192}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 104\tabcolsep) * \real{0.0147}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 104\tabcolsep) * \real{0.0192}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 104\tabcolsep) * \real{0.0293}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 104\tabcolsep) * \real{0.0169}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 104\tabcolsep) * \real{0.0124}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 104\tabcolsep) * \real{0.0406}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 104\tabcolsep) * \real{0.0259}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 104\tabcolsep) * \real{0.0293}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 104\tabcolsep) * \real{0.0316}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 104\tabcolsep) * \real{0.0395}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 104\tabcolsep) * \real{0.0180}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 104\tabcolsep) * \real{0.0293}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 104\tabcolsep) * \real{0.0361}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 104\tabcolsep) * \real{0.0327}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 104\tabcolsep) * \real{0.0248}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 104\tabcolsep) * \real{0.0158}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 104\tabcolsep) * \real{0.0158}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 104\tabcolsep) * \real{0.0158}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 104\tabcolsep) * \real{0.0158}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 104\tabcolsep) * \real{0.0158}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 104\tabcolsep) * \real{0.0158}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 104\tabcolsep) * \real{0.0180}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 104\tabcolsep) * \real{0.0214}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 104\tabcolsep) * \real{0.0316}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 104\tabcolsep) * \real{0.0192}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 104\tabcolsep) * \real{0.0214}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 104\tabcolsep) * \real{0.0203}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 104\tabcolsep) * \real{0.0203}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 104\tabcolsep) * \real{0.0237}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 104\tabcolsep) * \real{0.0214}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 104\tabcolsep) * \real{0.0180}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 104\tabcolsep) * \real{0.0598}}@{}}
+\toprule()
+\begin{minipage}[b]{\linewidth}\raggedleft
+regiao
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+uf
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+municipio\_cap
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+escola
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+aluno
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+tabagismo
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+sexo
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+idade
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+mes\_aniversario
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+ano\_nascimento
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+cor
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+celular
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+computador
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+internet
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+carro
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+moto
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+banheiro
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+escolaridade\_mae
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+ano\_escolar
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+atividade\_fisica
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+bebida\_alcoolica
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+dias\_tristes
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+sentimento\_corpo
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+frequencia\_pais\_problemas
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+amigos\_fumaram
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+pais\_fumam
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+escola\_frequencia\_violencia\_colegas
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+escola\_acesso\_internet
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+escola\_atividades\_fisicas
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+escola\_prevencao\_uso\_tabaco
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+escola\_consumo\_cigarro\_professores
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+mae\_nao\_estudou
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+mae\_concluiu\_ensino\_medio
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+mae\_concluiu\_ensino\_fundamental
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+mae\_concluiu\_ensino\_superior
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+distorcao\_idade\_serie
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+af\_nenhum\_dia
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+af\_1\_a\_3\_dias
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+af\_4\_a\_5\_dias
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+af\_6\_a\_7\_dias
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+ba\_nenhum\_dia
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+ba\_1\_a\_9\_dias
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+ba\_10\_a\_19\_dias
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+ba\_20\_a\_todos\_dias
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+triste\_na\_maioria\_das\_vezes
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+corpo\_satisfeito
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+corpo\_insatisfeito
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+corpo\_indiferente
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+compreensao\_nunca
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+compreensao\_as\_vezes
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+compreensao\_sempre
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+escola\_agredido
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+escola\_consumo\_cigarro\_professores\_e\_ou\_funcionarios
+\end{minipage} \\
+\midrule()
+\endhead
+1 & 11 & 0 & 8 & 2 & 1 & 1 & 15 & 4 & 2004 & 1 & 1 & 1 & 1 & 1 & 1 & 1 &
+5 & 3 & 8 & 2 & 3 & 2 & 5 & 1 & 1 & 1 & 1 & 1 & 1 & 4 & 0 & 1 & 0 & 0 &
+0 & 0 & 0 & 0 & 1 & 0 & 1 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 1 & 0 & 0 \\
+1 & 11 & 0 & 8 & 15 & 1 & 1 & 16 & 10 & 2003 & 1 & 1 & 1 & 1 & 0 & 1 & 1
+& 5 & 3 & 6 & 1 & 4 & 2 & 5 & 0 & 0 & 1 & 1 & 1 & 1 & 4 & 0 & 1 & 0 & 0
+& 1 & 0 & 0 & 1 & 0 & 1 & 0 & 0 & 0 & 1 & 1 & 0 & 0 & 0 & 0 & 1 & 0 &
+0 \\
+1 & 11 & 0 & 23 & 22 & 2 & 0 & 14 & 10 & 2005 & 0 & 1 & 1 & 1 & 1 & 1 &
+1 & 4 & 3 & 5 & 1 & 5 & 4 & 4 & 1 & 0 & 1 & 0 & 1 & 0 & 4 & 0 & 0 & 0 &
+0 & 0 & 0 & 0 & 1 & 0 & 1 & 0 & 0 & 0 & 1 & 0 & 1 & 0 & 0 & 0 & 1 & 0 &
+0 \\
+1 & 11 & 0 & 7 & 7 & 1 & 1 & 13 & 4 & 2006 & 0 & 1 & 1 & 1 & 1 & 1 & 1 &
+8 & 2 & 6 & 1 & 1 & 1 & 5 & 0 & 0 & 1 & 1 & 1 & 1 & 4 & 0 & 0 & 0 & 0 &
+0 & 0 & 0 & 1 & 0 & 1 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 1 & 0 & 0 \\
+1 & 11 & 0 & 8 & 6 & 1 & 0 & 16 & 12 & 2003 & 1 & 1 & 1 & 1 & 1 & 1 & 1
+& 7 & 3 & 1 & 1 & 2 & 2 & 5 & 0 & 0 & 1 & 1 & 1 & 1 & 4 & 0 & 1 & 0 & 1
+& 1 & 1 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 1 & 0 &
+0 \\
+1 & 11 & 0 & 1 & 16 & 1 & 0 & 14 & 10 & 2005 & 0 & 1 & 0 & 1 & 1 & 0 & 1
+& 4 & 3 & 5 & 1 & 5 & 4 & 4 & 0 & 0 & 1 & 0 & 1 & 1 & 4 & 0 & 0 & 0 & 0
+& 0 & 0 & 0 & 1 & 0 & 1 & 0 & 0 & 0 & 1 & 0 & 1 & 0 & 0 & 0 & 1 & 0 &
+0 \\
+\bottomrule()
+\end{longtable}
+
+\hypertarget{variuxe1veis-qualitativas-nominais}{%
+\subsubsection{Variáveis qualitativas
+nominais}\label{variuxe1veis-qualitativas-nominais}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tabelas }\OtherTok{\textless{}{-}} \FunctionTok{list}\NormalTok{()}
+
+\ControlFlowTok{for}\NormalTok{(i }\ControlFlowTok{in} \FunctionTok{colnames}\NormalTok{(clean\_data)) \{}
+\NormalTok{  exceptions }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}
+    \StringTok{"regiao"}\NormalTok{,}
+    \StringTok{"uf"}\NormalTok{,}
+    \StringTok{"municipio\_cap"}\NormalTok{,}
+    \StringTok{"escola"}\NormalTok{,}
+    \StringTok{"aluno"}\NormalTok{,}
+    \StringTok{"distorcao\_idade\_serie"}\NormalTok{,}
+    \StringTok{"tabagismo"}\NormalTok{,}
+    \StringTok{"mes\_aniversario"}\NormalTok{,}
+    \StringTok{"ano\_nascimento"}
+\NormalTok{  )}
+  
+  \ControlFlowTok{if}\NormalTok{(}\SpecialCharTok{!}\NormalTok{i }\SpecialCharTok{\%in\%}\NormalTok{ exceptions)\{}
+\NormalTok{    tb }\OtherTok{\textless{}{-}} \FunctionTok{table}\NormalTok{(clean\_data[i])}
+\NormalTok{    fa }\OtherTok{\textless{}{-}} \FunctionTok{as.data.frame}\NormalTok{(tb)}
+\NormalTok{    fr }\OtherTok{\textless{}{-}} \FunctionTok{as.data.frame}\NormalTok{(}\FunctionTok{round}\NormalTok{(}\FunctionTok{prop.table}\NormalTok{(tb), }\DecValTok{4}\NormalTok{))}
+\NormalTok{    df }\OtherTok{\textless{}{-}} \FunctionTok{cbind}\NormalTok{(fa, fr[}\StringTok{"Freq"}\NormalTok{])}
+\NormalTok{    df }\OtherTok{\textless{}{-}} \FunctionTok{cbind}\NormalTok{(df, fr[}\StringTok{"Freq"}\NormalTok{]}\SpecialCharTok{*}\DecValTok{100}\NormalTok{)}
+    \FunctionTok{colnames}\NormalTok{(df) }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(i, }\StringTok{"f.a"}\NormalTok{, }\StringTok{"f.r"}\NormalTok{, }\StringTok{"f.r (\%)"}\NormalTok{)}
+
+\NormalTok{    tabelas[[i]] }\OtherTok{\textless{}{-}} \FunctionTok{kable}\NormalTok{(df)}
+\NormalTok{  \}}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tabelas[[}\StringTok{"sexo"}\NormalTok{]]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}lrrr@{}}
+\toprule()
+sexo & f.a & f.r & f.r (\%) \\
+\midrule()
+\endhead
+0 & 11552 & 0.4885 & 48.85 \\
+1 & 12096 & 0.5115 & 51.15 \\
+\bottomrule()
+\end{longtable}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tabelas[[}\StringTok{"idade"}\NormalTok{]]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}lrrr@{}}
+\toprule()
+idade & f.a & f.r & f.r (\%) \\
+\midrule()
+\endhead
+11 & 53 & 0.0022 & 0.22 \\
+12 & 4 & 0.0002 & 0.02 \\
+13 & 707 & 0.0299 & 2.99 \\
+14 & 2594 & 0.1097 & 10.97 \\
+15 & 4031 & 0.1705 & 17.05 \\
+16 & 4992 & 0.2111 & 21.11 \\
+17 & 5962 & 0.2521 & 25.21 \\
+18 & 3581 & 0.1514 & 15.14 \\
+19 & 1724 & 0.0729 & 7.29 \\
+\bottomrule()
+\end{longtable}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tabelas[[}\StringTok{"cor"}\NormalTok{]]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}lrrr@{}}
+\toprule()
+cor & f.a & f.r & f.r (\%) \\
+\midrule()
+\endhead
+0 & 14516 & 0.6138 & 61.38 \\
+1 & 9132 & 0.3862 & 38.62 \\
+\bottomrule()
+\end{longtable}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tabelas[[}\StringTok{"celular"}\NormalTok{]]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}lrrr@{}}
+\toprule()
+celular & f.a & f.r & f.r (\%) \\
+\midrule()
+\endhead
+0 & 3175 & 0.1343 & 13.43 \\
+1 & 20473 & 0.8657 & 86.57 \\
+\bottomrule()
+\end{longtable}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tabelas[[}\StringTok{"computador"}\NormalTok{]]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}lrrr@{}}
+\toprule()
+computador & f.a & f.r & f.r (\%) \\
+\midrule()
+\endhead
+0 & 9305 & 0.3935 & 39.35 \\
+1 & 14343 & 0.6065 & 60.65 \\
+\bottomrule()
+\end{longtable}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tabelas[[}\StringTok{"internet"}\NormalTok{]]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}lrrr@{}}
+\toprule()
+internet & f.a & f.r & f.r (\%) \\
+\midrule()
+\endhead
+0 & 2520 & 0.1066 & 10.66 \\
+1 & 21128 & 0.8934 & 89.34 \\
+\bottomrule()
+\end{longtable}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tabelas[[}\StringTok{"carro"}\NormalTok{]]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}lrrr@{}}
+\toprule()
+carro & f.a & f.r & f.r (\%) \\
+\midrule()
+\endhead
+0 & 9636 & 0.4075 & 40.75 \\
+1 & 14012 & 0.5925 & 59.25 \\
+\bottomrule()
+\end{longtable}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tabelas[[}\StringTok{"moto"}\NormalTok{]]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}lrrr@{}}
+\toprule()
+moto & f.a & f.r & f.r (\%) \\
+\midrule()
+\endhead
+0 & 14472 & 0.612 & 61.2 \\
+1 & 9176 & 0.388 & 38.8 \\
+\bottomrule()
+\end{longtable}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tabelas[[}\StringTok{"banheiro"}\NormalTok{]]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}lrrr@{}}
+\toprule()
+banheiro & f.a & f.r & f.r (\%) \\
+\midrule()
+\endhead
+0 & 537 & 0.0227 & 2.27 \\
+1 & 23111 & 0.9773 & 97.73 \\
+\bottomrule()
+\end{longtable}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tabelas[[}\StringTok{"escolaridade\_mae"}\NormalTok{]]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}lrrr@{}}
+\toprule()
+escolaridade\_mae & f.a & f.r & f.r (\%) \\
+\midrule()
+\endhead
+1 & 883 & 0.0373 & 3.73 \\
+2 & 3912 & 0.1654 & 16.54 \\
+3 & 1298 & 0.0549 & 5.49 \\
+4 & 1738 & 0.0735 & 7.35 \\
+5 & 4835 & 0.2045 & 20.45 \\
+6 & 1720 & 0.0727 & 7.27 \\
+7 & 6028 & 0.2549 & 25.49 \\
+8 & 3234 & 0.1368 & 13.68 \\
+\bottomrule()
+\end{longtable}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tabelas[[}\StringTok{"ano\_escolar"}\NormalTok{]]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}lrrr@{}}
+\toprule()
+ano\_escolar & f.a & f.r & f.r (\%) \\
+\midrule()
+\endhead
+1 & 27 & 0.0011 & 0.11 \\
+2 & 962 & 0.0407 & 4.07 \\
+3 & 2586 & 0.1094 & 10.94 \\
+4 & 3704 & 0.1566 & 15.66 \\
+5 & 5625 & 0.2379 & 23.79 \\
+6 & 5309 & 0.2245 & 22.45 \\
+7 & 5435 & 0.2298 & 22.98 \\
+\bottomrule()
+\end{longtable}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tabelas[[}\StringTok{"atividade\_fisica"}\NormalTok{]]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}lrrr@{}}
+\toprule()
+atividade\_fisica & f.a & f.r & f.r (\%) \\
+\midrule()
+\endhead
+1 & 9232 & 0.3904 & 39.04 \\
+2 & 2459 & 0.1040 & 10.40 \\
+3 & 2688 & 0.1137 & 11.37 \\
+4 & 2395 & 0.1013 & 10.13 \\
+5 & 1535 & 0.0649 & 6.49 \\
+6 & 2179 & 0.0921 & 9.21 \\
+7 & 1078 & 0.0456 & 4.56 \\
+8 & 2082 & 0.0880 & 8.80 \\
+\bottomrule()
+\end{longtable}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tabelas[[}\StringTok{"bebida\_alcoolica"}\NormalTok{]]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}lrrr@{}}
+\toprule()
+bebida\_alcoolica & f.a & f.r & f.r (\%) \\
+\midrule()
+\endhead
+1 & 9065 & 0.3833 & 38.33 \\
+2 & 6794 & 0.2873 & 28.73 \\
+3 & 3392 & 0.1434 & 14.34 \\
+4 & 2131 & 0.0901 & 9.01 \\
+5 & 1422 & 0.0601 & 6.01 \\
+6 & 479 & 0.0203 & 2.03 \\
+7 & 365 & 0.0154 & 1.54 \\
+\bottomrule()
+\end{longtable}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tabelas[[}\StringTok{"dias\_tristes"}\NormalTok{]]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}lrrr@{}}
+\toprule()
+dias\_tristes & f.a & f.r & f.r (\%) \\
+\midrule()
+\endhead
+1 & 1561 & 0.0660 & 6.60 \\
+2 & 4200 & 0.1776 & 17.76 \\
+3 & 7696 & 0.3254 & 32.54 \\
+4 & 5814 & 0.2459 & 24.59 \\
+5 & 4377 & 0.1851 & 18.51 \\
+\bottomrule()
+\end{longtable}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tabelas[[}\StringTok{"sentimento\_corpo"}\NormalTok{]]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}lrrr@{}}
+\toprule()
+sentimento\_corpo & f.a & f.r & f.r (\%) \\
+\midrule()
+\endhead
+1 & 5072 & 0.2145 & 21.45 \\
+2 & 8345 & 0.3529 & 35.29 \\
+3 & 2762 & 0.1168 & 11.68 \\
+4 & 4941 & 0.2089 & 20.89 \\
+5 & 2528 & 0.1069 & 10.69 \\
+\bottomrule()
+\end{longtable}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tabelas[[}\StringTok{"frequencia\_pais\_problemas"}\NormalTok{]]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}lrrr@{}}
+\toprule()
+frequencia\_pais\_problemas & f.a & f.r & f.r (\%) \\
+\midrule()
+\endhead
+1 & 5328 & 0.2253 & 22.53 \\
+2 & 5132 & 0.2170 & 21.70 \\
+3 & 5260 & 0.2224 & 22.24 \\
+4 & 4362 & 0.1845 & 18.45 \\
+5 & 3566 & 0.1508 & 15.08 \\
+\bottomrule()
+\end{longtable}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tabelas[[}\StringTok{"amigos\_fumaram"}\NormalTok{]]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}lrrr@{}}
+\toprule()
+amigos\_fumaram & f.a & f.r & f.r (\%) \\
+\midrule()
+\endhead
+0 & 10099 & 0.4271 & 42.71 \\
+1 & 13549 & 0.5729 & 57.29 \\
+\bottomrule()
+\end{longtable}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tabelas[[}\StringTok{"pais\_fumam"}\NormalTok{]]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}lrrr@{}}
+\toprule()
+pais\_fumam & f.a & f.r & f.r (\%) \\
+\midrule()
+\endhead
+0 & 16455 & 0.6958 & 69.58 \\
+1 & 7193 & 0.3042 & 30.42 \\
+\bottomrule()
+\end{longtable}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tabelas[[}\StringTok{"escola\_frequencia\_violencia\_colegas"}\NormalTok{]]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}lrrr@{}}
+\toprule()
+escola\_frequencia\_violencia\_colegas & f.a & f.r & f.r (\%) \\
+\midrule()
+\endhead
+1 & 19951 & 0.8437 & 84.37 \\
+2 & 1790 & 0.0757 & 7.57 \\
+3 & 1907 & 0.0806 & 8.06 \\
+\bottomrule()
+\end{longtable}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tabelas[[}\StringTok{"escola\_acesso\_internet"}\NormalTok{]]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}lrrr@{}}
+\toprule()
+escola\_acesso\_internet & f.a & f.r & f.r (\%) \\
+\midrule()
+\endhead
+0 & 8250 & 0.3489 & 34.89 \\
+1 & 15398 & 0.6511 & 65.11 \\
+\bottomrule()
+\end{longtable}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tabelas[[}\StringTok{"escola\_atividades\_fisicas"}\NormalTok{]]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}lrrr@{}}
+\toprule()
+escola\_atividades\_fisicas & f.a & f.r & f.r (\%) \\
+\midrule()
+\endhead
+0 & 879 & 0.0372 & 3.72 \\
+1 & 22769 & 0.9628 & 96.28 \\
+\bottomrule()
+\end{longtable}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tabelas[[}\StringTok{"escola\_prevencao\_uso\_tabaco"}\NormalTok{]]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}lrrr@{}}
+\toprule()
+escola\_prevencao\_uso\_tabaco & f.a & f.r & f.r (\%) \\
+\midrule()
+\endhead
+0 & 12502 & 0.5287 & 52.87 \\
+1 & 11146 & 0.4713 & 47.13 \\
+\bottomrule()
+\end{longtable}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tabelas[[}\StringTok{"escola\_consumo\_cigarro\_professores"}\NormalTok{]]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}lrrr@{}}
+\toprule()
+escola\_consumo\_cigarro\_professores & f.a & f.r & f.r (\%) \\
+\midrule()
+\endhead
+1 & 3323 & 0.1405 & 14.05 \\
+2 & 836 & 0.0354 & 3.54 \\
+3 & 1306 & 0.0552 & 5.52 \\
+4 & 18183 & 0.7689 & 76.89 \\
+\bottomrule()
+\end{longtable}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tabelas[[}\StringTok{"mae\_nao\_estudou"}\NormalTok{]]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}lrrr@{}}
+\toprule()
+mae\_nao\_estudou & f.a & f.r & f.r (\%) \\
+\midrule()
+\endhead
+0 & 22765 & 0.9627 & 96.27 \\
+1 & 883 & 0.0373 & 3.73 \\
+\bottomrule()
+\end{longtable}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tabelas[[}\StringTok{"mae\_concluiu\_ensino\_medio"}\NormalTok{]]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}lrrr@{}}
+\toprule()
+mae\_concluiu\_ensino\_medio & f.a & f.r & f.r (\%) \\
+\midrule()
+\endhead
+0 & 11065 & 0.4679 & 46.79 \\
+1 & 12583 & 0.5321 & 53.21 \\
+\bottomrule()
+\end{longtable}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tabelas[[}\StringTok{"mae\_concluiu\_ensino\_fundamental"}\NormalTok{]]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}lrrr@{}}
+\toprule()
+mae\_concluiu\_ensino\_fundamental & f.a & f.r & f.r (\%) \\
+\midrule()
+\endhead
+0 & 22350 & 0.9451 & 94.51 \\
+1 & 1298 & 0.0549 & 5.49 \\
+\bottomrule()
+\end{longtable}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tabelas[[}\StringTok{"mae\_concluiu\_ensino\_superior"}\NormalTok{]]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}lrrr@{}}
+\toprule()
+mae\_concluiu\_ensino\_superior & f.a & f.r & f.r (\%) \\
+\midrule()
+\endhead
+0 & 17620 & 0.7451 & 74.51 \\
+1 & 6028 & 0.2549 & 25.49 \\
+\bottomrule()
+\end{longtable}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tabelas[[}\StringTok{"af\_nenhum\_dia"}\NormalTok{]]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}lrrr@{}}
+\toprule()
+af\_nenhum\_dia & f.a & f.r & f.r (\%) \\
+\midrule()
+\endhead
+0 & 14416 & 0.6096 & 60.96 \\
+1 & 9232 & 0.3904 & 39.04 \\
+\bottomrule()
+\end{longtable}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tabelas[[}\StringTok{"af\_1\_a\_3\_dias"}\NormalTok{]]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}lrrr@{}}
+\toprule()
+af\_1\_a\_3\_dias & f.a & f.r & f.r (\%) \\
+\midrule()
+\endhead
+0 & 16106 & 0.6811 & 68.11 \\
+1 & 7542 & 0.3189 & 31.89 \\
+\bottomrule()
+\end{longtable}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tabelas[[}\StringTok{"af\_4\_a\_5\_dias"}\NormalTok{]]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}lrrr@{}}
+\toprule()
+af\_4\_a\_5\_dias & f.a & f.r & f.r (\%) \\
+\midrule()
+\endhead
+0 & 19934 & 0.8429 & 84.29 \\
+1 & 3714 & 0.1571 & 15.71 \\
+\bottomrule()
+\end{longtable}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tabelas[[}\StringTok{"af\_6\_a\_7\_dias"}\NormalTok{]]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}lrrr@{}}
+\toprule()
+af\_6\_a\_7\_dias & f.a & f.r & f.r (\%) \\
+\midrule()
+\endhead
+0 & 20488 & 0.8664 & 86.64 \\
+1 & 3160 & 0.1336 & 13.36 \\
+\bottomrule()
+\end{longtable}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tabelas[[}\StringTok{"ba\_nenhum\_dia"}\NormalTok{]]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}lrrr@{}}
+\toprule()
+ba\_nenhum\_dia & f.a & f.r & f.r (\%) \\
+\midrule()
+\endhead
+0 & 14583 & 0.6167 & 61.67 \\
+1 & 9065 & 0.3833 & 38.33 \\
+\bottomrule()
+\end{longtable}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tabelas[[}\StringTok{"ba\_1\_a\_9\_dias"}\NormalTok{]]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}lrrr@{}}
+\toprule()
+ba\_1\_a\_9\_dias & f.a & f.r & f.r (\%) \\
+\midrule()
+\endhead
+0 & 11331 & 0.4792 & 47.92 \\
+1 & 12317 & 0.5208 & 52.08 \\
+\bottomrule()
+\end{longtable}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tabelas[[}\StringTok{"ba\_10\_a\_19\_dias"}\NormalTok{]]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}lrrr@{}}
+\toprule()
+ba\_10\_a\_19\_dias & f.a & f.r & f.r (\%) \\
+\midrule()
+\endhead
+0 & 22226 & 0.9399 & 93.99 \\
+1 & 1422 & 0.0601 & 6.01 \\
+\bottomrule()
+\end{longtable}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tabelas[[}\StringTok{"ba\_20\_a\_todos\_dias"}\NormalTok{]]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}lrrr@{}}
+\toprule()
+ba\_20\_a\_todos\_dias & f.a & f.r & f.r (\%) \\
+\midrule()
+\endhead
+0 & 22804 & 0.9643 & 96.43 \\
+1 & 844 & 0.0357 & 3.57 \\
+\bottomrule()
+\end{longtable}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tabelas[[}\StringTok{"triste\_na\_maioria\_das\_vezes"}\NormalTok{]]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}lrrr@{}}
+\toprule()
+triste\_na\_maioria\_das\_vezes & f.a & f.r & f.r (\%) \\
+\midrule()
+\endhead
+0 & 13457 & 0.5691 & 56.91 \\
+1 & 10191 & 0.4309 & 43.09 \\
+\bottomrule()
+\end{longtable}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tabelas[[}\StringTok{"corpo\_satisfeito"}\NormalTok{]]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}lrrr@{}}
+\toprule()
+corpo\_satisfeito & f.a & f.r & f.r (\%) \\
+\midrule()
+\endhead
+0 & 10231 & 0.4326 & 43.26 \\
+1 & 13417 & 0.5674 & 56.74 \\
+\bottomrule()
+\end{longtable}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tabelas[[}\StringTok{"corpo\_insatisfeito"}\NormalTok{]]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}lrrr@{}}
+\toprule()
+corpo\_insatisfeito & f.a & f.r & f.r (\%) \\
+\midrule()
+\endhead
+0 & 16179 & 0.6842 & 68.42 \\
+1 & 7469 & 0.3158 & 31.58 \\
+\bottomrule()
+\end{longtable}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tabelas[[}\StringTok{"corpo\_indiferente"}\NormalTok{]]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}lrrr@{}}
+\toprule()
+corpo\_indiferente & f.a & f.r & f.r (\%) \\
+\midrule()
+\endhead
+0 & 20886 & 0.8832 & 88.32 \\
+1 & 2762 & 0.1168 & 11.68 \\
+\bottomrule()
+\end{longtable}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tabelas[[}\StringTok{"compreensao\_nunca"}\NormalTok{]]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}lrrr@{}}
+\toprule()
+compreensao\_nunca & f.a & f.r & f.r (\%) \\
+\midrule()
+\endhead
+0 & 18320 & 0.7747 & 77.47 \\
+1 & 5328 & 0.2253 & 22.53 \\
+\bottomrule()
+\end{longtable}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tabelas[[}\StringTok{"compreensao\_as\_vezes"}\NormalTok{]]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}lrrr@{}}
+\toprule()
+compreensao\_as\_vezes & f.a & f.r & f.r (\%) \\
+\midrule()
+\endhead
+0 & 13256 & 0.5606 & 56.06 \\
+1 & 10392 & 0.4394 & 43.94 \\
+\bottomrule()
+\end{longtable}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tabelas[[}\StringTok{"compreensao\_sempre"}\NormalTok{]]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}lrrr@{}}
+\toprule()
+compreensao\_sempre & f.a & f.r & f.r (\%) \\
+\midrule()
+\endhead
+0 & 15720 & 0.6647 & 66.47 \\
+1 & 7928 & 0.3353 & 33.53 \\
+\bottomrule()
+\end{longtable}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tabelas[[}\StringTok{"escola\_agredido"}\NormalTok{]]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}lrrr@{}}
+\toprule()
+escola\_agredido & f.a & f.r & f.r (\%) \\
+\midrule()
+\endhead
+0 & 19951 & 0.8437 & 84.37 \\
+1 & 3697 & 0.1563 & 15.63 \\
+\bottomrule()
+\end{longtable}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tabelas[[}\StringTok{"escola\_consumo\_cigarro\_professores\_e\_ou\_funcionarios"}\NormalTok{]]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.7162}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.0811}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.0946}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1081}}@{}}
+\toprule()
+\begin{minipage}[b]{\linewidth}\raggedright
+escola\_consumo\_cigarro\_professores\_e\_ou\_funcionarios
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+f.a
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+f.r
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+f.r (\%)
+\end{minipage} \\
+\midrule()
+\endhead
+0 & 18183 & 0.7689 & 76.89 \\
+1 & 5465 & 0.2311 & 23.11 \\
+\bottomrule()
+\end{longtable}
+
+\hypertarget{variuxe1veis-qualitativas-ordinais}{%
+\subsubsection{Variáveis qualitativas
+ordinais}\label{variuxe1veis-qualitativas-ordinais}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tb }\OtherTok{\textless{}{-}} \FunctionTok{table}\NormalTok{(clean\_data}\SpecialCharTok{$}\NormalTok{tabagismo)}
+
+\NormalTok{fa }\OtherTok{\textless{}{-}} \FunctionTok{as.data.frame}\NormalTok{(tb)}
+\NormalTok{fr }\OtherTok{\textless{}{-}} \FunctionTok{as.data.frame}\NormalTok{(}\FunctionTok{round}\NormalTok{(}\FunctionTok{prop.table}\NormalTok{(tb), }\DecValTok{4}\NormalTok{))}
+\NormalTok{df }\OtherTok{\textless{}{-}} \FunctionTok{cbind}\NormalTok{(fa, fr[}\StringTok{"Freq"}\NormalTok{])}
+\NormalTok{df }\OtherTok{\textless{}{-}} \FunctionTok{cbind}\NormalTok{(df, fr[}\StringTok{"Freq"}\NormalTok{]}\SpecialCharTok{*}\DecValTok{100}\NormalTok{)}
+\FunctionTok{colnames}\NormalTok{(df) }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"tabagismo"}\NormalTok{, }\StringTok{"f.a"}\NormalTok{, }\StringTok{"f.r"}\NormalTok{, }\StringTok{"f.r (\%)"}\NormalTok{)}
+
+\FunctionTok{kable}\NormalTok{(df)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}lrrr@{}}
+\toprule()
+tabagismo & f.a & f.r & f.r (\%) \\
+\midrule()
+\endhead
+1 & 16876 & 0.7136 & 71.36 \\
+2 & 3340 & 0.1412 & 14.12 \\
+3 & 1063 & 0.0450 & 4.50 \\
+4 & 594 & 0.0251 & 2.51 \\
+5 & 621 & 0.0263 & 2.63 \\
+6 & 357 & 0.0151 & 1.51 \\
+7 & 797 & 0.0337 & 3.37 \\
+\bottomrule()
+\end{longtable}
+
+\hypertarget{variuxe1veis-quantitativas-discretas}{%
+\subsubsection{Variáveis quantitativas
+discretas}\label{variuxe1veis-quantitativas-discretas}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ControlFlowTok{for}\NormalTok{(i }\ControlFlowTok{in} \FunctionTok{colnames}\NormalTok{(clean\_data)) \{}
+\NormalTok{  columns }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}
+    \StringTok{"idade"}\NormalTok{,}
+    \StringTok{"distorcao\_idade\_serie"}
+\NormalTok{  )}
+  
+  \ControlFlowTok{if}\NormalTok{(i }\SpecialCharTok{\%in\%}\NormalTok{ columns)\{}
+\NormalTok{    tb }\OtherTok{\textless{}{-}} \FunctionTok{table}\NormalTok{(clean\_data[i])}
+\NormalTok{    fa }\OtherTok{\textless{}{-}} \FunctionTok{as.data.frame}\NormalTok{(tb)}
+\NormalTok{    fr }\OtherTok{\textless{}{-}} \FunctionTok{as.data.frame}\NormalTok{(}\FunctionTok{round}\NormalTok{(}\FunctionTok{prop.table}\NormalTok{(tb), }\DecValTok{4}\NormalTok{))}
+\NormalTok{    df }\OtherTok{\textless{}{-}} \FunctionTok{cbind}\NormalTok{(fa, fr[}\StringTok{"Freq"}\NormalTok{])}
+\NormalTok{    df }\OtherTok{\textless{}{-}} \FunctionTok{cbind}\NormalTok{(df, fr[}\StringTok{"Freq"}\NormalTok{]}\SpecialCharTok{*}\DecValTok{100}\NormalTok{)}
+    \FunctionTok{colnames}\NormalTok{(df) }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(i, }\StringTok{"f.a"}\NormalTok{, }\StringTok{"f.r"}\NormalTok{, }\StringTok{"f.r (\%)"}\NormalTok{)}
+
+\NormalTok{    tabelas[[i]] }\OtherTok{\textless{}{-}} \FunctionTok{kable}\NormalTok{(df)}
+\NormalTok{  \}}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tabelas[[}\StringTok{"idade"}\NormalTok{]]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}lrrr@{}}
+\toprule()
+idade & f.a & f.r & f.r (\%) \\
+\midrule()
+\endhead
+11 & 53 & 0.0022 & 0.22 \\
+12 & 4 & 0.0002 & 0.02 \\
+13 & 707 & 0.0299 & 2.99 \\
+14 & 2594 & 0.1097 & 10.97 \\
+15 & 4031 & 0.1705 & 17.05 \\
+16 & 4992 & 0.2111 & 21.11 \\
+17 & 5962 & 0.2521 & 25.21 \\
+18 & 3581 & 0.1514 & 15.14 \\
+19 & 1724 & 0.0729 & 7.29 \\
+\bottomrule()
+\end{longtable}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tabelas[[}\StringTok{"distorcao\_idade\_serie"}\NormalTok{]]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}lrrr@{}}
+\toprule()
+distorcao\_idade\_serie & f.a & f.r & f.r (\%) \\
+\midrule()
+\endhead
+0 & 21332 & 0.9021 & 90.21 \\
+1 & 1652 & 0.0699 & 6.99 \\
+2 & 505 & 0.0214 & 2.14 \\
+3 & 117 & 0.0049 & 0.49 \\
+4 & 28 & 0.0012 & 0.12 \\
+5 & 8 & 0.0003 & 0.03 \\
+6 & 6 & 0.0003 & 0.03 \\
+\bottomrule()
+\end{longtable}
 
 \hypertarget{estimando-o-modelo}{%
 \subsection{Estimando o modelo}\label{estimando-o-modelo}}
@@ -1078,6 +2174,191 @@ escola_atividades_fisicas                             1.1584208
 escola_prevencao_uso_tabaco                           1.0931225
 escola_consumo_cigarro_professores_e_ou_funcionarios  1.0744138
 \end{verbatim}
+
+\hypertarget{tabagismo-x-distoruxe7uxe3o-idade-suxe9rie}{%
+\subsubsection{Tabagismo x Distorção
+idade-série}\label{tabagismo-x-distoruxe7uxe3o-idade-suxe9rie}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{new\_df }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}
+  \StringTok{"sexo"} \OtherTok{=} \FunctionTok{rep}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{100}\NormalTok{),}
+  \StringTok{"idade"} \OtherTok{=} \FunctionTok{rep}\NormalTok{(}\DecValTok{17}\NormalTok{, }\DecValTok{100}\NormalTok{),}
+  \StringTok{"cor"} \OtherTok{=} \FunctionTok{rep}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{100}\NormalTok{),}
+  \StringTok{"celular"} \OtherTok{=} \FunctionTok{rep}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{100}\NormalTok{),}
+  \StringTok{"computador"} \OtherTok{=} \FunctionTok{rep}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{100}\NormalTok{),}
+  \StringTok{"internet"} \OtherTok{=} \FunctionTok{rep}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{100}\NormalTok{),}
+  \StringTok{"carro"} \OtherTok{=} \FunctionTok{rep}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{100}\NormalTok{),}
+  \StringTok{"moto"} \OtherTok{=} \FunctionTok{rep}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{100}\NormalTok{),}
+  \StringTok{"banheiro"} \OtherTok{=} \FunctionTok{rep}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{100}\NormalTok{),}
+  \StringTok{"mae\_nao\_estudou"} \OtherTok{=} \FunctionTok{rep}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{100}\NormalTok{),}
+  \StringTok{"mae\_concluiu\_ensino\_fundamental"} \OtherTok{=} \FunctionTok{rep}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{100}\NormalTok{),}
+  \StringTok{"distorcao\_idade\_serie"} \OtherTok{=} \FunctionTok{seq}\NormalTok{(}\AttributeTok{from=}\DecValTok{0}\NormalTok{, }\AttributeTok{to=}\DecValTok{6}\NormalTok{, }\AttributeTok{length.out =} \DecValTok{100}\NormalTok{),}
+  \StringTok{"af\_1\_a\_3\_dias"} \OtherTok{=} \FunctionTok{rep}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{100}\NormalTok{),}
+  \StringTok{"af\_4\_a\_5\_dias"} \OtherTok{=} \FunctionTok{rep}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{100}\NormalTok{),}
+  \StringTok{"af\_6\_a\_7\_dias"} \OtherTok{=} \FunctionTok{rep}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{100}\NormalTok{),}
+  \StringTok{"ba\_1\_a\_9\_dias"} \OtherTok{=} \FunctionTok{rep}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{100}\NormalTok{),}
+  \StringTok{"ba\_10\_a\_19\_dias"} \OtherTok{=} \FunctionTok{rep}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{100}\NormalTok{),}
+  \StringTok{"ba\_20\_a\_todos\_dias"} \OtherTok{=} \FunctionTok{rep}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{100}\NormalTok{),}
+  \StringTok{"triste\_na\_maioria\_das\_vezes"} \OtherTok{=} \FunctionTok{rep}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{100}\NormalTok{),}
+  \StringTok{"corpo\_indiferente"} \OtherTok{=} \FunctionTok{rep}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{100}\NormalTok{),}
+  \StringTok{"corpo\_insatisfeito"} \OtherTok{=} \FunctionTok{rep}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{100}\NormalTok{),}
+  \StringTok{"compreensao\_sempre"} \OtherTok{=} \FunctionTok{rep}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{100}\NormalTok{),}
+  \StringTok{"compreensao\_as\_vezes"} \OtherTok{=} \FunctionTok{rep}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{100}\NormalTok{),}
+  \StringTok{"pais\_fumam"} \OtherTok{=} \FunctionTok{rep}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{100}\NormalTok{),}
+  \StringTok{"amigos\_fumaram"} \OtherTok{=} \FunctionTok{rep}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{100}\NormalTok{),}
+  \StringTok{"escola\_acesso\_internet"} \OtherTok{=} \FunctionTok{rep}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{100}\NormalTok{),}
+  \StringTok{"escola\_agredido"} \OtherTok{=} \FunctionTok{rep}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{100}\NormalTok{),}
+  \StringTok{"escola\_atividades\_fisicas"} \OtherTok{=} \FunctionTok{rep}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{100}\NormalTok{),}
+  \StringTok{"escola\_prevencao\_uso\_tabaco"} \OtherTok{=} \FunctionTok{rep}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{100}\NormalTok{),}
+  \StringTok{"escola\_consumo\_cigarro\_professores\_e\_ou\_funcionarios"} \OtherTok{=} \FunctionTok{rep}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{100}\NormalTok{)}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(reshape2)}
+
+\NormalTok{new\_df }\OtherTok{\textless{}{-}} \FunctionTok{cbind}\NormalTok{(new\_df, }\FunctionTok{predict}\NormalTok{(logit\_ordenado, new\_df, }\AttributeTok{type=}\StringTok{"prob"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(ggplot2)}
+
+\NormalTok{abnt\_theme }\OtherTok{\textless{}{-}} \FunctionTok{theme\_classic}\NormalTok{() }\SpecialCharTok{+} 
+    \FunctionTok{theme}\NormalTok{(}
+      \AttributeTok{axis.line =} \FunctionTok{element\_line}\NormalTok{(}\AttributeTok{linewidth =} \FloatTok{0.8}\NormalTok{, }\AttributeTok{color =} \StringTok{"black"}\NormalTok{),}
+      \AttributeTok{axis.text =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size =} \DecValTok{12}\NormalTok{, }\AttributeTok{color =} \StringTok{"black"}\NormalTok{),}
+      \AttributeTok{axis.title =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size =} \DecValTok{14}\NormalTok{, }\AttributeTok{color =} \StringTok{"black"}\NormalTok{,}\AttributeTok{face =} \StringTok{"bold"}\NormalTok{),}
+      \AttributeTok{plot.title =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size =} \DecValTok{18}\NormalTok{, }\AttributeTok{color =} \StringTok{"black"}\NormalTok{,}\AttributeTok{face =} \StringTok{"bold"}\NormalTok{),}
+      \AttributeTok{legend.title =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size =} \DecValTok{14}\NormalTok{, }\AttributeTok{color =} \StringTok{"black"}\NormalTok{,}\AttributeTok{face =} \StringTok{"bold"}\NormalTok{),}
+      \AttributeTok{legend.text =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size =} \DecValTok{12}\NormalTok{, }\AttributeTok{color =} \StringTok{"black"}\NormalTok{),}
+      \AttributeTok{panel.grid.minor =} \FunctionTok{element\_line}\NormalTok{(}\AttributeTok{size =} \FloatTok{0.2}\NormalTok{, }\AttributeTok{color =} \StringTok{"gray"}\NormalTok{),}
+      \AttributeTok{panel.grid.major =} \FunctionTok{element\_line}\NormalTok{(}\AttributeTok{size =} \FloatTok{0.4}\NormalTok{, }\AttributeTok{color =} \StringTok{"gray"}\NormalTok{),}
+      \AttributeTok{plot.background =} \FunctionTok{element\_rect}\NormalTok{(}\AttributeTok{fill =} \StringTok{"white"}\NormalTok{),}
+      \AttributeTok{plot.margin =} \FunctionTok{unit}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{), }\StringTok{"cm"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+Warning: The `size` argument of `element_line()` is deprecated as of ggplot2 3.4.0.
+i Please use the `linewidth` argument instead.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ggplot}\NormalTok{(new\_df, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ distorcao\_idade\_serie, }\AttributeTok{y =}\NormalTok{ fit}\FloatTok{.1}\NormalTok{)) }\SpecialCharTok{+} \FunctionTok{geom\_line}\NormalTok{() }\SpecialCharTok{+} \FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \StringTok{"Probabilidade de não fumar"}\NormalTok{, }\AttributeTok{y =} \StringTok{"Probabilidade"}\NormalTok{, }\AttributeTok{x =} \StringTok{"Distorção idade{-}série"}\NormalTok{) }\SpecialCharTok{+}\NormalTok{ abnt\_theme}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}[H]
+
+{\centering \includegraphics{main_files/figure-pdf/fig-line-plot-1.pdf}
+
+}
+
+\caption{\label{fig-line-plot}Probabilidade de não fumar}
+
+\end{figure}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ggplot}\NormalTok{(new\_df, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ distorcao\_idade\_serie, }\AttributeTok{y =}\NormalTok{ fit}\FloatTok{.2}\NormalTok{)) }\SpecialCharTok{+} \FunctionTok{geom\_line}\NormalTok{() }\SpecialCharTok{+} \FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \StringTok{"Probabilidade de fumar 1 ou 2 dias"}\NormalTok{, }\AttributeTok{y =} \StringTok{"Probabilidade"}\NormalTok{, }\AttributeTok{x =} \StringTok{"Distorção idade{-}série"}\NormalTok{) }\SpecialCharTok{+}\NormalTok{ abnt\_theme}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}[H]
+
+{\centering \includegraphics{main_files/figure-pdf/fig-line-plot2-1.pdf}
+
+}
+
+\caption{\label{fig-line-plot2}Probabilidade de fumar 1 ou 2 dias}
+
+\end{figure}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ggplot}\NormalTok{(new\_df, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ distorcao\_idade\_serie, }\AttributeTok{y =}\NormalTok{ fit}\FloatTok{.3}\NormalTok{)) }\SpecialCharTok{+} \FunctionTok{geom\_line}\NormalTok{() }\SpecialCharTok{+} \FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \StringTok{"Probabilidade de fumar 3 a 5 dias"}\NormalTok{, }\AttributeTok{y =} \StringTok{"Probabilidade"}\NormalTok{, }\AttributeTok{x =} \StringTok{"Distorção idade{-}série"}\NormalTok{) }\SpecialCharTok{+}\NormalTok{ abnt\_theme}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}[H]
+
+{\centering \includegraphics{main_files/figure-pdf/fig-line-plot3-1.pdf}
+
+}
+
+\caption{\label{fig-line-plot3}Probabilidade de fumar 3 a 5 dias}
+
+\end{figure}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ggplot}\NormalTok{(new\_df, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ distorcao\_idade\_serie, }\AttributeTok{y =}\NormalTok{ fit}\FloatTok{.4}\NormalTok{)) }\SpecialCharTok{+} \FunctionTok{geom\_line}\NormalTok{() }\SpecialCharTok{+} \FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \StringTok{"Probabilidade de fumar 6 a 9 dias"}\NormalTok{, }\AttributeTok{y =} \StringTok{"Probabilidade"}\NormalTok{, }\AttributeTok{x =} \StringTok{"Distorção idade{-}série"}\NormalTok{) }\SpecialCharTok{+}\NormalTok{ abnt\_theme}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}[H]
+
+{\centering \includegraphics{main_files/figure-pdf/fig-line-plot4-1.pdf}
+
+}
+
+\caption{\label{fig-line-plot4}Probabilidade de fumar 6 a 9 dias}
+
+\end{figure}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ggplot}\NormalTok{(new\_df, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ distorcao\_idade\_serie, }\AttributeTok{y =}\NormalTok{ fit}\FloatTok{.5}\NormalTok{)) }\SpecialCharTok{+} \FunctionTok{geom\_line}\NormalTok{() }\SpecialCharTok{+} \FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \StringTok{"Probabilidade de fumar 10 a 19 dias"}\NormalTok{, }\AttributeTok{y =} \StringTok{"Probabilidade"}\NormalTok{, }\AttributeTok{x =} \StringTok{"Distorção idade{-}série"}\NormalTok{) }\SpecialCharTok{+}\NormalTok{ abnt\_theme}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}[H]
+
+{\centering \includegraphics{main_files/figure-pdf/fig-line-plot5-1.pdf}
+
+}
+
+\caption{\label{fig-line-plot5}Probabilidade de fumar 10 a 19 dias}
+
+\end{figure}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ggplot}\NormalTok{(new\_df, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ distorcao\_idade\_serie, }\AttributeTok{y =}\NormalTok{ fit}\FloatTok{.6}\NormalTok{)) }\SpecialCharTok{+} \FunctionTok{geom\_line}\NormalTok{() }\SpecialCharTok{+} \FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \StringTok{"Probabilidade de fumar 20 a 29 dias"}\NormalTok{, }\AttributeTok{y =} \StringTok{"Probabilidade"}\NormalTok{, }\AttributeTok{x =} \StringTok{"Distorção idade{-}série"}\NormalTok{) }\SpecialCharTok{+}\NormalTok{ abnt\_theme}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}[H]
+
+{\centering \includegraphics{main_files/figure-pdf/fig-line-plot6-1.pdf}
+
+}
+
+\caption{\label{fig-line-plot6}Probabilidade de fumar 20 a 29 dias}
+
+\end{figure}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ggplot}\NormalTok{(new\_df, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ distorcao\_idade\_serie, }\AttributeTok{y =}\NormalTok{ fit}\FloatTok{.7}\NormalTok{)) }\SpecialCharTok{+} \FunctionTok{geom\_line}\NormalTok{() }\SpecialCharTok{+} \FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \StringTok{"Probabilidade de fumar todos os dias"}\NormalTok{, }\AttributeTok{y =} \StringTok{"Probabilidade"}\NormalTok{, }\AttributeTok{x =} \StringTok{"Distorção idade{-}série"}\NormalTok{) }\SpecialCharTok{+}\NormalTok{ abnt\_theme}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}[H]
+
+{\centering \includegraphics{main_files/figure-pdf/fig-line-plot7-1.pdf}
+
+}
+
+\caption{\label{fig-line-plot7}Probabilidade de fumar todos os dias}
+
+\end{figure}
 
 \hypertarget{referuxeancias}{%
 \subsubsection{Referências}\label{referuxeancias}}
