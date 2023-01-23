@@ -677,11 +677,14 @@ new_df <- cbind(new_df, predict(logit_ordenado, new_df, type="prob"))
 
 
 ```{r}
+#| label: fig-line-plot
+#| fig-cap: "Probabilidade de não fumar"
+
 library(ggplot2)
 
 abnt_theme <- theme_classic() + 
     theme(
-      axis.line = element_line(size = 0.8, color = "black"),
+      axis.line = element_line(linewidth = 0.8, color = "black"),
       axis.text = element_text(size = 12, color = "black"),
       axis.title = element_text(size = 14, color = "black",face = "bold"),
       plot.title = element_text(size = 18, color = "black",face = "bold"),
@@ -696,26 +699,38 @@ ggplot(new_df, aes(x = distorcao_idade_serie, y = fit.1)) + geom_line() + labs(t
 ```
 
 ```{r}
+#| label: fig-line-plot2
+#| fig-cap: "Probabilidade de fumar 1 ou 2 dias"
 ggplot(new_df, aes(x = distorcao_idade_serie, y = fit.2)) + geom_line() + labs(title = "Probabilidade de fumar 1 ou 2 dias", y = "Probabilidade", x = "Distorção idade-série") + abnt_theme
 ```
 
 ```{r}
+#| label: fig-line-plot3
+#| fig-cap: "Probabilidade de fumar 3 a 5 dias"
 ggplot(new_df, aes(x = distorcao_idade_serie, y = fit.3)) + geom_line() + labs(title = "Probabilidade de fumar 3 a 5 dias", y = "Probabilidade", x = "Distorção idade-série") + abnt_theme
 ```
 
 ```{r}
+#| label: fig-line-plot4
+#| fig-cap: "Probabilidade de fumar 6 a 9 dias"
 ggplot(new_df, aes(x = distorcao_idade_serie, y = fit.4)) + geom_line() + labs(title = "Probabilidade de fumar 6 a 9 dias", y = "Probabilidade", x = "Distorção idade-série") + abnt_theme
 ```
 
 ```{r}
+#| label: fig-line-plot5
+#| fig-cap: "Probabilidade de fumar 10 a 19 dias"
 ggplot(new_df, aes(x = distorcao_idade_serie, y = fit.5)) + geom_line() + labs(title = "Probabilidade de fumar 10 a 19 dias", y = "Probabilidade", x = "Distorção idade-série") + abnt_theme
 ```
 
 ```{r}
+#| label: fig-line-plot6
+#| fig-cap: "Probabilidade de fumar 20 a 29 dias"
 ggplot(new_df, aes(x = distorcao_idade_serie, y = fit.6)) + geom_line() + labs(title = "Probabilidade de fumar 20 a 29 dias", y = "Probabilidade", x = "Distorção idade-série") + abnt_theme
 ```
 
 ```{r}
+#| label: fig-line-plot7
+#| fig-cap: "Probabilidade de fumar todos os dias"
 ggplot(new_df, aes(x = distorcao_idade_serie, y = fit.7)) + geom_line() + labs(title = "Probabilidade de fumar todos os dias", y = "Probabilidade", x = "Distorção idade-série") + abnt_theme
 ```
 
