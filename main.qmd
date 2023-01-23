@@ -126,6 +126,7 @@ clean_data = janitor::clean_names(data) |>
   tidyr::drop_na()
 ```
 
+
 ## Ajustando variáveis
 
 ```{r}
@@ -361,6 +362,134 @@ clean_data$escola_consumo_cigarro_professores_e_ou_funcionarios <- ifelse(
 clean_data$tabagismo <- factor(as.character(clean_data$tabagismo))
 ```
 
+## Análise descritiva
+
+```{r}
+## Dataset após limpeza e inclusão de dummies
+library(reactable)
+
+reactable(clean_data)
+```
+
+### Variáveis qualitativas nominais
+```{r}
+tabelas <- list()
+
+for(i in colnames(clean_data)) {
+  exceptions <- c(
+    "regiao",
+    "uf",
+    "municipio_cap",
+    "escola",
+    "aluno",
+    "distorcao_idade_serie",
+    "tabagismo",
+    "mes_aniversario",
+    "ano_nascimento"
+  )
+  
+  if(!i %in% exceptions){
+    tb <- table(clean_data[i])
+    fa <- as.data.frame(tb)
+    fr <- as.data.frame(round(prop.table(tb), 4))
+    df <- cbind(fa, fr["Freq"])
+    df <- cbind(df, fr["Freq"]*100)
+    colnames(df) <- c(i, "f.a", "f.r", "f.r (%)")
+
+    tabelas[[i]] <- reactable(df)
+  }
+}
+```
+
+```{r}
+tabelas[["sexo"]]
+tabelas[["idade"]]
+tabelas[["cor"]]
+tabelas[["celular"]]
+tabelas[["computador"]]
+tabelas[["internet"]]
+tabelas[["carro"]]
+tabelas[["moto"]]
+tabelas[["banheiro"]]
+tabelas[["escolaridade_mae"]]
+tabelas[["ano_escolar"]]
+tabelas[["atividade_fisica"]]
+tabelas[["bebida_alcoolica"]]
+tabelas[["dias_tristes"]]
+tabelas[["sentimento_corpo"]]
+tabelas[["frequencia_pais_problemas"]]
+tabelas[["amigos_fumaram"]]
+tabelas[["pais_fumam"]]
+tabelas[["escola_frequencia_violencia_colegas"]]
+tabelas[["escola_acesso_internet"]]
+tabelas[["escola_atividades_fisicas"]]
+tabelas[["escola_prevencao_uso_tabaco"]]
+tabelas[["escola_consumo_cigarro_professores"]]
+tabelas[["mae_nao_estudou"]]
+tabelas[["mae_concluiu_ensino_medio"]]
+tabelas[["mae_concluiu_ensino_fundamental"]]
+tabelas[["mae_concluiu_ensino_superior"]]
+tabelas[["af_nenhum_dia"]]
+tabelas[["af_1_a_3_dias"]]
+tabelas[["af_4_a_5_dias"]]
+tabelas[["af_6_a_7_dias"]]
+tabelas[["ba_nenhum_dia"]]
+tabelas[["ba_1_a_9_dias"]]
+tabelas[["ba_10_a_19_dias"]]
+tabelas[["ba_20_a_todos_dias"]]
+tabelas[["triste_na_maioria_das_vezes"]]
+tabelas[["corpo_satisfeito"]]
+tabelas[["corpo_insatisfeito"]]
+tabelas[["corpo_indiferente"]]
+tabelas[["compreensao_nunca"]]
+tabelas[["compreensao_as_vezes"]]
+tabelas[["compreensao_sempre"]]
+tabelas[["escola_agredido"]]
+tabelas[["escola_consumo_cigarro_professores_e_ou_funcionarios"]]
+```
+
+### Variáveis qualitativas ordinais
+
+```{r}
+tb <- table(clean_data$tabagismo)
+
+fa <- as.data.frame(tb)
+fr <- as.data.frame(round(prop.table(tb), 4))
+df <- cbind(fa, fr["Freq"])
+df <- cbind(df, fr["Freq"]*100)
+colnames(df) <- c("tabagismo", "f.a", "f.r", "f.r (%)")
+
+reactable(df)
+```
+
+### Variáveis quantitativas discretas
+
+```{r}
+for(i in colnames(clean_data)) {
+  columns <- c(
+    "idade",
+    "distorcao_idade_serie"
+  )
+  
+  if(i %in% columns){
+    tb <- table(clean_data[i])
+    fa <- as.data.frame(tb)
+    fr <- as.data.frame(round(prop.table(tb), 4))
+    df <- cbind(fa, fr["Freq"])
+    df <- cbind(df, fr["Freq"]*100)
+    colnames(df) <- c(i, "f.a", "f.r", "f.r (%)")
+
+    tabelas[[i]] <- reactable(df)
+  }
+}
+```
+
+```{r}
+tabelas[["idade"]]
+tabelas[["distorcao_idade_serie"]]
+```
+
+
 ## Estimando o modelo
 
 A amostra restante (alunos e escolas Não
@@ -501,6 +630,93 @@ exp(
     ci
   )
 )
+```
+
+### Tabagismo x Distorção idade-série
+
+```{r}
+new_df <- data.frame(
+  "sexo" = rep(1, 100),
+  "idade" = rep(17, 100),
+  "cor" = rep(1, 100),
+  "celular" = rep(1, 100),
+  "computador" = rep(1, 100),
+  "internet" = rep(1, 100),
+  "carro" = rep(0, 100),
+  "moto" = rep(0, 100),
+  "banheiro" = rep(1, 100),
+  "mae_nao_estudou" = rep(1, 100),
+  "mae_concluiu_ensino_fundamental" = rep(0, 100),
+  "distorcao_idade_serie" = seq(from=0, to=6, length.out = 100),
+  "af_1_a_3_dias" = rep(0, 100),
+  "af_4_a_5_dias" = rep(0, 100),
+  "af_6_a_7_dias" = rep(0, 100),
+  "ba_1_a_9_dias" = rep(0, 100),
+  "ba_10_a_19_dias" = rep(0, 100),
+  "ba_20_a_todos_dias" = rep(0, 100),
+  "triste_na_maioria_das_vezes" = rep(0, 100),
+  "corpo_indiferente" = rep(1, 100),
+  "corpo_insatisfeito" = rep(0, 100),
+  "compreensao_sempre" = rep(0, 100),
+  "compreensao_as_vezes" = rep(1, 100),
+  "pais_fumam" = rep(0, 100),
+  "amigos_fumaram" = rep(0, 100),
+  "escola_acesso_internet" = rep(1, 100),
+  "escola_agredido" = rep(0, 100),
+  "escola_atividades_fisicas" = rep(1, 100),
+  "escola_prevencao_uso_tabaco" = rep(0, 100),
+  "escola_consumo_cigarro_professores_e_ou_funcionarios" = rep(0, 100)
+)
+```
+
+```{r}
+library(reshape2)
+
+new_df <- cbind(new_df, predict(logit_ordenado, new_df, type="prob"))
+```
+
+
+```{r}
+library(ggplot2)
+
+abnt_theme <- theme_classic() + 
+    theme(
+      axis.line = element_line(size = 0.8, color = "black"),
+      axis.text = element_text(size = 12, color = "black"),
+      axis.title = element_text(size = 14, color = "black",face = "bold"),
+      plot.title = element_text(size = 18, color = "black",face = "bold"),
+      legend.title = element_text(size = 14, color = "black",face = "bold"),
+      legend.text = element_text(size = 12, color = "black"),
+      panel.grid.minor = element_line(size = 0.2, color = "gray"),
+      panel.grid.major = element_line(size = 0.4, color = "gray"),
+      plot.background = element_rect(fill = "white"),
+      plot.margin = unit(c(1, 1, 1, 1), "cm"))
+
+ggplot(new_df, aes(x = distorcao_idade_serie, y = fit.1)) + geom_line() + labs(title = "Probabilidade de não fumar", y = "Probabilidade", x = "Distorção idade-série") + abnt_theme
+```
+
+```{r}
+ggplot(new_df, aes(x = distorcao_idade_serie, y = fit.2)) + geom_line() + labs(title = "Probabilidade de fumar 1 ou 2 dias", y = "Probabilidade", x = "Distorção idade-série") + abnt_theme
+```
+
+```{r}
+ggplot(new_df, aes(x = distorcao_idade_serie, y = fit.3)) + geom_line() + labs(title = "Probabilidade de fumar 3 a 5 dias", y = "Probabilidade", x = "Distorção idade-série") + abnt_theme
+```
+
+```{r}
+ggplot(new_df, aes(x = distorcao_idade_serie, y = fit.4)) + geom_line() + labs(title = "Probabilidade de fumar 6 a 9 dias", y = "Probabilidade", x = "Distorção idade-série") + abnt_theme
+```
+
+```{r}
+ggplot(new_df, aes(x = distorcao_idade_serie, y = fit.5)) + geom_line() + labs(title = "Probabilidade de fumar 10 a 19 dias", y = "Probabilidade", x = "Distorção idade-série") + abnt_theme
+```
+
+```{r}
+ggplot(new_df, aes(x = distorcao_idade_serie, y = fit.6)) + geom_line() + labs(title = "Probabilidade de fumar 20 a 29 dias", y = "Probabilidade", x = "Distorção idade-série") + abnt_theme
+```
+
+```{r}
+ggplot(new_df, aes(x = distorcao_idade_serie, y = fit.7)) + geom_line() + labs(title = "Probabilidade de fumar todos os dias", y = "Probabilidade", x = "Distorção idade-série") + abnt_theme
 ```
 
 
