@@ -3,16 +3,16 @@ title: "Estimação"
 bibliography: ref.bib
 csl: abnt.csl
 format:
-  html:
-    code-fold: true
-  # pdf:
-  #   documentclass: article
-  #   keep-tex: true
-  #   geometry:
-  #     - top=30mm
-  #     - left=30mm
-  #     - right=20mm
-  #     - bottom=20mm
+  # html:
+  #   code-fold: true
+  pdf:
+    documentclass: article
+    keep-tex: true
+    geometry:
+      - top=30mm
+      - left=30mm
+      - right=20mm
+      - bottom=20mm
 ---
 
 ## Carregando base de dados
