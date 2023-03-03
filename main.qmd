@@ -3,16 +3,16 @@ title: "Estimação"
 bibliography: ref.bib
 csl: abnt.csl
 format:
-  # html:
-  #   code-fold: true
-  pdf:
-    documentclass: article
-    keep-tex: true
-    geometry:
-      - top=30mm
-      - left=30mm
-      - right=20mm
-      - bottom=20mm
+  html:
+    code-fold: true
+  # pdf:
+  #   documentclass: article
+  #   keep-tex: true
+  #   geometry:
+  #     - top=30mm
+  #     - left=30mm
+  #     - right=20mm
+  #     - bottom=20mm
 ---
 
 ## Carregando base de dados
@@ -393,9 +393,8 @@ for(i in colnames(clean_data)) {
     tb <- table(clean_data[i])
     fa <- as.data.frame(tb)
     fr <- as.data.frame(round(prop.table(tb), 4))
-    df <- cbind(fa, fr["Freq"])
-    df <- cbind(df, fr["Freq"]*100)
-    colnames(df) <- c(i, "f.a", "f.r", "f.r (%)")
+    df <- cbind(fa, fr["Freq"]*100)
+    colnames(df) <- c(i, "f.a", "f.r (%)")
 
     tabelas[[i]] <- kable(df)
   }
@@ -456,9 +455,8 @@ tb <- table(clean_data$tabagismo)
 
 fa <- as.data.frame(tb)
 fr <- as.data.frame(round(prop.table(tb), 4))
-df <- cbind(fa, fr["Freq"])
-df <- cbind(df, fr["Freq"]*100)
-colnames(df) <- c("tabagismo", "f.a", "f.r", "f.r (%)")
+df <- cbind(fa, fr["Freq"]*100)
+colnames(df) <- c("tabagismo", "f.a", "f.r (%)")
 
 kable(df)
 ```
@@ -476,9 +474,8 @@ for(i in colnames(clean_data)) {
     tb <- table(clean_data[i])
     fa <- as.data.frame(tb)
     fr <- as.data.frame(round(prop.table(tb), 4))
-    df <- cbind(fa, fr["Freq"])
-    df <- cbind(df, fr["Freq"]*100)
-    colnames(df) <- c(i, "f.a", "f.r", "f.r (%)")
+    df <- cbind(fa, fr["Freq"]*100)
+    colnames(df) <- c(i, "f.a", "f.r (%)")
 
     tabelas[[i]] <- kable(df)
   }
@@ -489,7 +486,6 @@ for(i in colnames(clean_data)) {
 tabelas[["idade"]]
 tabelas[["distorcao_idade_serie"]]
 ```
-
 
 ## Estimando o modelo
 
@@ -622,7 +618,7 @@ Razão de chance para cada preditor com intervalo de confiança de $5\%$:
 ```{r}
 ci <- confint(logit_ordenado)
 
-exp(
+round(exp(
   cbind(
     OR = tail(
       logit_ordenado$coefficients,
@@ -630,7 +626,7 @@ exp(
     ),
     ci
   )
-)
+), 2)
 ```
 
 ### Tabagismo x Distorção idade-série
@@ -682,6 +678,11 @@ new_df <- cbind(new_df, predict(logit_ordenado, new_df, type="prob"))
 #| fig-cap: "Probabilidade de não fumar"
 
 library(ggplot2)
+library(extrafont)
+
+font_import(pattern = "Times New Roman")
+
+loadfonts(device = "win")
 
 abnt_theme <- theme_classic() + 
     theme(
@@ -696,43 +697,43 @@ abnt_theme <- theme_classic() +
       plot.background = element_rect(fill = "white"),
       plot.margin = unit(c(1, 1, 1, 1), "cm"))
 
-ggplot(new_df, aes(x = distorcao_idade_serie, y = fit.1)) + geom_line() + labs(title = "Probabilidade de não fumar", y = "Probabilidade", x = "Distorção idade-série") + abnt_theme
+ggplot(new_df, aes(x = distorcao_idade_serie, y = fit.1)) + geom_line() + labs(title = "Probabilidade de não fumar", y = "Probabilidade", x = "Distorção idade-série") + abnt_theme + theme_bw(base_family = "Times New Roman")
 ```
 
 ```{r}
 #| label: fig-line-plot2
 #| fig-cap: "Probabilidade de fumar 1 ou 2 dias"
-ggplot(new_df, aes(x = distorcao_idade_serie, y = fit.2)) + geom_line() + labs(title = "Probabilidade de fumar 1 ou 2 dias", y = "Probabilidade", x = "Distorção idade-série") + abnt_theme
+ggplot(new_df, aes(x = distorcao_idade_serie, y = fit.2)) + geom_line() + labs(title = "Probabilidade de fumar 1 ou 2 dias", y = "Probabilidade", x = "Distorção idade-série") + abnt_theme + theme_bw(base_family = "Times New Roman")
 ```
 
 ```{r}
 #| label: fig-line-plot3
 #| fig-cap: "Probabilidade de fumar 3 a 5 dias"
-ggplot(new_df, aes(x = distorcao_idade_serie, y = fit.3)) + geom_line() + labs(title = "Probabilidade de fumar 3 a 5 dias", y = "Probabilidade", x = "Distorção idade-série") + abnt_theme
+ggplot(new_df, aes(x = distorcao_idade_serie, y = fit.3)) + geom_line() + labs(title = "Probabilidade de fumar 3 a 5 dias", y = "Probabilidade", x = "Distorção idade-série") + abnt_theme + theme_bw(base_family = "Times New Roman")
 ```
 
 ```{r}
 #| label: fig-line-plot4
 #| fig-cap: "Probabilidade de fumar 6 a 9 dias"
-ggplot(new_df, aes(x = distorcao_idade_serie, y = fit.4)) + geom_line() + labs(title = "Probabilidade de fumar 6 a 9 dias", y = "Probabilidade", x = "Distorção idade-série") + abnt_theme
+ggplot(new_df, aes(x = distorcao_idade_serie, y = fit.4)) + geom_line() + labs(title = "Probabilidade de fumar 6 a 9 dias", y = "Probabilidade", x = "Distorção idade-série") + abnt_theme + theme_bw(base_family = "Times New Roman")
 ```
 
 ```{r}
 #| label: fig-line-plot5
 #| fig-cap: "Probabilidade de fumar 10 a 19 dias"
-ggplot(new_df, aes(x = distorcao_idade_serie, y = fit.5)) + geom_line() + labs(title = "Probabilidade de fumar 10 a 19 dias", y = "Probabilidade", x = "Distorção idade-série") + abnt_theme
+ggplot(new_df, aes(x = distorcao_idade_serie, y = fit.5)) + geom_line() + labs(title = "Probabilidade de fumar 10 a 19 dias", y = "Probabilidade", x = "Distorção idade-série") + abnt_theme + theme_bw(base_family = "Times New Roman")
 ```
 
 ```{r}
 #| label: fig-line-plot6
 #| fig-cap: "Probabilidade de fumar 20 a 29 dias"
-ggplot(new_df, aes(x = distorcao_idade_serie, y = fit.6)) + geom_line() + labs(title = "Probabilidade de fumar 20 a 29 dias", y = "Probabilidade", x = "Distorção idade-série") + abnt_theme
+ggplot(new_df, aes(x = distorcao_idade_serie, y = fit.6)) + geom_line() + labs(title = "Probabilidade de fumar 20 a 29 dias", y = "Probabilidade", x = "Distorção idade-série") + abnt_theme + theme_bw(base_family = "Times New Roman")
 ```
 
 ```{r}
 #| label: fig-line-plot7
 #| fig-cap: "Probabilidade de fumar todos os dias"
-ggplot(new_df, aes(x = distorcao_idade_serie, y = fit.7)) + geom_line() + labs(title = "Probabilidade de fumar todos os dias", y = "Probabilidade", x = "Distorção idade-série") + abnt_theme
+ggplot(new_df, aes(x = distorcao_idade_serie, y = fit.7)) + geom_line() + labs(title = "Probabilidade de fumar todos os dias", y = "Probabilidade", x = "Distorção idade-série") + abnt_theme + theme_bw(base_family = "Times New Roman")
 ```
 
 
